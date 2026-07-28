@@ -639,13 +639,16 @@ document
         }
 
 
-        else{
+else{
 
 
-            sidebar.style.width="287px";
+    sidebar.style.width="287px";
 
 
-            logo.src="img/4wallai.svg";
+    collapse.style.display = "flex";
+
+
+    logo.src="img/4wallai.svg";
 
 
             Object.assign(logo.style,{
