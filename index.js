@@ -1,254 +1,238 @@
 (function () {
+
     /* ============================================================
-       4WALL-STYLE CUSTOM TOPBAR
+       4WALL STYLE SIDEBAR NAVIGATION
        ============================================================ */
 
-    const topBar = document.createElement('div');
-    topBar.id = 'custom-topbar';
+    const sidebar = document.createElement('div');
+    sidebar.id = "fourwall-sidebar";
 
-    Object.assign(topBar.style, {
-        position: 'fixed',
-        top: '0',
-        left: '300px',
-        width: 'calc(100% - 300px)',
-        height: '96px',
-        backgroundColor: '#000000',
-        zIndex: '1000',
-        margin: '0',
-        padding: '0',
-        boxSizing: 'border-box'
+
+    Object.assign(sidebar.style, {
+        position: "fixed",
+        left: "0",
+        top: "0",
+        width: "72px",
+        height: "100vh",
+        background: "#0A0A0A",
+        borderRight: "1px solid rgb(23,23,23)",
+        zIndex: "100000",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: "20px",
+        boxSizing: "border-box"
     });
 
-
-    /* ============================================================
-       CONTENT
-       ============================================================ */
-
-    const content = document.createElement('div');
-    content.id = 'custom-topbar-content';
-
-Object.assign(content.style, {
-    width: 'calc(100% - 80px)',
-    maxWidth: '1000px',
-    height: '100%',
-    margin: '0 auto',
-    display: 'flex',
-    alignItems: 'center',
-    boxSizing: 'border-box'
-});
 
 
     /* ============================================================
-       AVATAR
+       SVG ICONS
        ============================================================ */
 
-    const avatar = document.createElement('img');
-    avatar.id = 'custom-topbar-avatar';
+    const icons = {
 
-    Object.assign(avatar.style, {
-        width: '48px',
-        height: '48px',
-        borderRadius: '50%',
-        objectFit: 'cover',
-        flexShrink: '0',
-        marginRight: '12px'
-    });
+        home: `
+        <svg width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
+        <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        </svg>`,
+
+        plus: `
+        <svg width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M5 12h14"/>
+        <path d="M12 5v14"/>
+        </svg>`,
+
+        feed: `
+        <svg width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+        <path d="M18 14h-8"/>
+        <path d="M15 18h-5"/>
+        <path d="M10 6h8v4h-8V6Z"/>
+        </svg>`,
+
+        profile: `
+        <svg width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+        </svg>`,
+
+        settings: `
+        <svg width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+        <circle cx="12" cy="12" r="3"/>
+        </svg>`
+    };
+
 
 
     /* ============================================================
-       CHARACTER INFO
+       BUTTON CREATOR
        ============================================================ */
 
-    const characterInfo = document.createElement('div');
+    function createButton(icon, name) {
 
-    Object.assign(characterInfo.style, {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        height: '48px',
-        minWidth: '0'
-    });
+        const button = document.createElement("div");
 
+        button.className = "fourwall-nav-button";
 
-    /* CHARACTER NAME */
+        button.innerHTML = icon;
 
-    const characterName = document.createElement('div');
-    characterName.id = 'custom-topbar-character-name';
-
-    Object.assign(characterName.style, {
-        color: '#ffffff',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: '18px',
-        fontWeight: '700',
-        lineHeight: '22px',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis'
-    });
+        Object.assign(button.style, {
+            width: "44px",
+            height: "44px",
+            borderRadius: "10px",
+            marginBottom: "12px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#f5541d",
+            cursor: "pointer",
+            transition: "background .15s ease"
+        });
 
 
-    /* MODEL */
-
-    const modelName = document.createElement('div');
-
-    modelName.innerHTML = `
-        Deepseek V4 Flash
-        <span style="
-            color:#999999;
-            margin-left:4px;
-            font-size:12px;
-        ">⌄</span>
-    `;
-
-    Object.assign(modelName.style, {
-        color: '#999999',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: '12px',
-        fontWeight: '400',
-        lineHeight: '18px',
-        whiteSpace: 'nowrap'
-    });
+        button.title = name;
 
 
-    /* ============================================================
-       BUTTONS
-       ============================================================ */
+        button.onmouseenter = () => {
+            button.style.background = "#171717";
+        };
 
-    const buttons = document.createElement('div');
-
-    Object.assign(buttons.style, {
-        marginLeft: 'auto',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '24px'
-    });
+        button.onmouseleave = () => {
+            button.style.background = "transparent";
+        };
 
 
-    /* HEART */
-
-    const heartButton = document.createElement('button');
-
-    heartButton.innerHTML = '♥';
-
-    Object.assign(heartButton.style, {
-        width: '32px',
-        height: '32px',
-        padding: '0',
-        border: 'none',
-        background: 'transparent',
-        color: '#ff7417',
-        fontSize: '24px',
-        cursor: 'pointer'
-    });
-
-
-    /* MENU */
-
-    const menuButton = document.createElement('button');
-
-    menuButton.innerHTML = '•••';
-
-    Object.assign(menuButton.style, {
-        width: '32px',
-        height: '32px',
-        padding: '0',
-        border: 'none',
-        background: 'transparent',
-        color: '#ffffff',
-        fontSize: '14px',
-        fontWeight: '700',
-        letterSpacing: '2px',
-        cursor: 'pointer'
-    });
-
-
-    /* ============================================================
-       FIND ACTIVE CHARACTER FROM CHAT
-       ============================================================ */
-
-    function updateCharacter() {
-
-        /*
-         * Find the first AI message currently displayed.
-         *
-         * SillyTavern's message element contains:
-         *
-         * .ch_name .name_text
-         *
-         * for the character's name.
-         *
-         * And:
-         *
-         * .avatar img
-         *
-         * for the character's avatar.
-         */
-
-        const characterMessage = document.querySelector(
-            '#chat .mes[is_user="false"]'
-        );
-
-        if (!characterMessage) {
-            return;
-        }
-
-
-        /* ========================================================
-           GET CHARACTER NAME
-           ======================================================== */
-
-        const nameElement = characterMessage.querySelector(
-            '.ch_name .name_text'
-        );
-
-        if (nameElement) {
-            const name = nameElement.textContent.trim();
-
-            if (name) {
-                characterName.textContent = name;
-            }
-        }
-
-
-        /* ========================================================
-           GET CHARACTER AVATAR
-           ======================================================== */
-
-        const avatarElement = characterMessage.querySelector(
-            '.avatar img'
-        );
-
-        if (avatarElement && avatarElement.src) {
-            avatar.src = avatarElement.src;
-        }
+        return button;
     }
 
 
-    /* ============================================================
-       BUILD
-       ============================================================ */
-
-    characterInfo.appendChild(characterName);
-    characterInfo.appendChild(modelName);
-
-    buttons.appendChild(heartButton);
-    buttons.appendChild(menuButton);
-
-    content.appendChild(avatar);
-    content.appendChild(characterInfo);
-    content.appendChild(buttons);
-
-    topBar.appendChild(content);
-
-    document.body.appendChild(topBar);
-
 
     /* ============================================================
-       CHECK CONSTANTLY
+       CREATE SUBMENU
        ============================================================ */
 
-    updateCharacter();
+    const createMenu = document.createElement("div");
 
-    setInterval(updateCharacter, 250);
+    Object.assign(createMenu.style, {
+        display: "none",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "-4px",
+        marginBottom: "8px"
+    });
+
+
+    function createSubButton(text) {
+
+        const btn = document.createElement("div");
+
+        btn.textContent = text;
+
+        Object.assign(btn.style, {
+            width:"110px",
+            height:"34px",
+            background:"#111",
+            color:"#fff",
+            borderRadius:"8px",
+            fontSize:"13px",
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            margin:"4px",
+            cursor:"pointer"
+        });
+
+
+        btn.onclick = () => {
+            console.log("Open:", text);
+        };
+
+
+        return btn;
+    }
+
+
+    createMenu.appendChild(createSubButton("Worlds"));
+    createMenu.appendChild(createSubButton("Characters"));
+    createMenu.appendChild(createSubButton("Personas"));
+
+
+
+    /* ============================================================
+       BUILD BUTTONS
+       ============================================================ */
+
+
+    const home = createButton(icons.home,"Home");
+
+    const create = createButton(icons.plus,"Create");
+
+    create.onclick = () => {
+
+        if(createMenu.style.display === "none"){
+            createMenu.style.display="flex";
+        }
+        else{
+            createMenu.style.display="none";
+        }
+
+    };
+
+
+    const feed = createButton(icons.feed,"Feed");
+
+    const profile = createButton(icons.profile,"Profile");
+
+    const settings = createButton(icons.settings,"Settings");
+
+
+
+    sidebar.appendChild(home);
+    sidebar.appendChild(create);
+    sidebar.appendChild(createMenu);
+
+    sidebar.appendChild(feed);
+
+    sidebar.style.gap = "4px";
+
+    sidebar.appendChild(profile);
+
+
+    const spacer = document.createElement("div");
+
+    spacer.style.flex = "1";
+
+    sidebar.appendChild(spacer);
+
+
+    sidebar.appendChild(settings);
+
+
+
+    document.body.appendChild(sidebar);
+
 
 })();
