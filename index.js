@@ -13,7 +13,7 @@
 
 
     /* ============================================================
-       KEEP ORIGINAL SILLYTAVERN UI HIDDEN
+       HIDE ORIGINAL SILLYTAVERN UI
        ============================================================ */
 
     function hideOldUI() {
@@ -43,8 +43,8 @@
 
 
     observer.observe(document.body, {
-        childList:true,
-        subtree:true
+        childList: true,
+        subtree: true
     });
 
 
@@ -60,35 +60,32 @@
 
     Object.assign(sidebar.style, {
 
-        position:"fixed",
+        position: "fixed",
 
-        left:"0",
-        top:"0",
+        left: "0",
+        top: "0",
 
-        width:"287px",
-        height:"100vh",
+        width: "287px",
+        height: "100vh",
 
-        background:"#0A0A0A",
+        background: "#0A0A0A",
 
-        borderRight:"1px solid rgb(23,23,23)",
+        borderRight: "1px solid rgb(23,23,23)",
 
-        zIndex:"999999",
+        zIndex: "999999",
 
-        display:"flex",
+        display: "flex",
+        flexDirection: "column",
 
-        flexDirection:"column",
+        alignItems: "stretch",
 
-        alignItems:"stretch",
+        padding: "15px",
 
-        padding:"15px",
+        boxSizing: "border-box",
 
-        paddingTop:"15px",
+        transition: "width .2s ease",
 
-        boxSizing:"border-box",
-
-        transition:"width .2s ease",
-
-        fontFamily:"Inter, sans-serif"
+        fontFamily: "Inter, sans-serif"
 
     });
 
@@ -109,21 +106,22 @@
 
     Object.assign(logo.style, {
 
-        width:"152px",
+        width: "152px",
 
-        height:"40px",
+        height: "40px",
 
-        objectFit:"contain",
+        objectFit: "contain",
 
-        marginBottom:"25px",
+        marginTop: "10px",
 
-        transition:"all .2s ease"
+        marginBottom: "25px",
+
+        transition: "all .2s ease"
 
     });
 
 
     sidebar.appendChild(logo);
-
 
 
 
@@ -134,41 +132,34 @@
     const collapse = document.createElement("div");
 
 
-    function setArrow(open){
+    function setArrow(expanded) {
 
-        collapse.innerHTML = open ? `
+        if (expanded) {
 
-        <svg width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#fff"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
+            collapse.innerHTML = `
 
-        <path d="m11 17-5-5 5-5"/>
-        <path d="m18 17-5-5 5-5"/>
+            <svg xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
 
-        </svg>
+            <path d="m11 17-5-5 5-5"/>
+            <path d="m18 17-5-5 5-5"/>
 
-        ` : `
+            </svg>`;
 
-        <svg width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#fff"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
+        }
 
-        <path d="m13 17 5-5-5-5"/>
-        <path d="m6 17 5-5-5-5"/>
+        else {
 
-        </svg>
+            collapse.innerHTML = "";
 
-        `;
+        }
 
     }
 
@@ -178,25 +169,25 @@
 
     Object.assign(collapse.style, {
 
-        position:"absolute",
+        position: "absolute",
 
-        top:"25px",
+        top: "23px",
 
-        right:"20px",
+        right: "25px",
 
-        width:"25px",
+        width: "25px",
 
-        height:"25px",
+        height: "25px",
 
-        display:"flex",
+        display: "flex",
 
-        alignItems:"center",
+        alignItems: "center",
 
-        justifyContent:"center",
+        justifyContent: "center",
 
-        cursor:"pointer",
+        cursor: "pointer",
 
-        opacity:"0.8"
+        opacity: "0.8"
 
     });
 
@@ -205,152 +196,152 @@
 
 
 
-
     /* ============================================================
        ICONS
        ============================================================ */
 
-const icons = {
+    const icons = {
 
-    home: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round">
+        home: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
-    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+        <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
 
-    </svg>`,
-
-
-
-    create: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round">
-
-    <path d="M5 12h14"></path>
-    <path d="M12 5v14"></path>
-
-    </svg>`,
+        </svg>`,
 
 
 
-    feed: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round">
+        create: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
-    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
-    <path d="M18 14h-8"></path>
-    <path d="M15 18h-5"></path>
-    <path d="M10 6h8v4h-8V6Z"></path>
+        <path d="M5 12h14"></path>
+        <path d="M12 5v14"></path>
 
-    </svg>`,
+        </svg>`,
 
 
 
-    profile: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round">
+        feed: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
-    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-    <circle cx="12" cy="7" r="4"></circle>
+        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+        <path d="M18 14h-8"></path>
+        <path d="M15 18h-5"></path>
+        <path d="M10 6h8v4h-8V6Z"></path>
 
-    </svg>`,
-
-
-
-    settings: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round">
-
-    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
-    <circle cx="12" cy="12" r="3"></circle>
-
-    </svg>`
-
-};
+        </svg>`,
 
 
 
+        profile: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+
+        </svg>`,
+
+
+
+        settings: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h.08a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+
+        </svg>`
+
+    };
+
+ 
     /* ============================================================
        BUTTON CREATOR
        ============================================================ */
 
-    function createButton(icon,text){
+    function createButton(icon, text) {
 
-
-        const button=document.createElement("div");
+        const button = document.createElement("div");
 
 
         button.innerHTML = `
 
-        <div class="fw-icon">${icon}</div>
+        <div class="fw-icon">
+            ${icon}
+        </div>
 
-        <div class="fw-text">${text}</div>
+        <div class="fw-text">
+            ${text}
+        </div>
 
         `;
 
 
-        Object.assign(button.style,{
+        Object.assign(button.style, {
 
-            width:"239px",
+            width: "239px",
 
-            height:"36px",
+            height: "36px",
 
-            flex:"0 0 auto",
+            flex: "0 0 auto",
 
-            display:"flex",
+            display: "flex",
 
-            alignItems:"center",
+            alignItems: "center",
 
-            padding:"0 14px",
+            padding: "0 14px",
 
-            background:"#0A0A0A",
+            background: "#0A0A0A",
 
-            borderRadius:"6px",
+            borderRadius: "6px",
 
-            cursor:"pointer",
+            cursor: "pointer",
 
-            boxSizing:"border-box",
+            boxSizing: "border-box",
 
-            color:"#fff",
+            color: "#ffffff",
 
-            transition:"background .15s ease"
+            transition: "background .15s ease"
 
         });
 
@@ -359,23 +350,21 @@ const icons = {
         const iconBox = button.querySelector(".fw-icon");
 
 
-        Object.assign(iconBox.style,{
+        Object.assign(iconBox.style, {
 
-            width:"20px",
+            width: "20px",
 
-            height:"20px",
+            height: "20px",
 
-            display:"flex",
+            display: "flex",
 
-            alignItems:"center",
+            alignItems: "center",
 
-            justifyContent:"center",
+            justifyContent: "center",
 
-            color:"#f5541d",
+            color: "#f5541d",
 
-            fontSize:"20px",
-
-            flexShrink:"0"
+            flexShrink: "0"
 
         });
 
@@ -397,14 +386,14 @@ const icons = {
 
         button.onmouseenter = () => {
 
-            button.style.background="rgb(23,23,23)";
+            button.style.background = "rgb(23,23,23)";
 
         };
 
 
         button.onmouseleave = () => {
 
-            button.style.background="#0A0A0A";
+            button.style.background = "#0A0A0A";
 
         };
 
@@ -416,120 +405,167 @@ const icons = {
 
 
 
+
     /* ============================================================
-       CREATE MENU
+       CREATE SUBMENU
        ============================================================ */
 
-    const createMenu=document.createElement("div");
+    const createMenu = document.createElement("div");
 
 
-    Object.assign(createMenu.style,{
+    Object.assign(createMenu.style, {
 
-        display:"none",
+        display: "none",
 
-        flexDirection:"column",
+        flexDirection: "column",
 
-        marginLeft:"15px",
+        marginLeft: "15px",
 
-        marginTop:"4px",
+        marginTop: "4px",
 
-        marginBottom:"4px"
+        marginBottom: "4px"
 
     });
 
 
 
-    [
-        ["Worlds","#worlds_dlg_button"],
-        ["Characters","#rm_button"],
-        ["Personas","#persona-management-button"]
-
-    ].forEach(entry=>{
+    function addSubmenu(name, target) {
 
 
-        const item=document.createElement("div");
+        const item = document.createElement("div");
 
 
-        item.textContent=entry[0];
+        item.textContent = name;
 
 
-        Object.assign(item.style,{
+        Object.assign(item.style, {
 
-            width:"224px",
+            width: "224px",
 
-            height:"32px",
+            height: "32px",
 
-            display:"flex",
+            display: "flex",
 
-            alignItems:"center",
+            alignItems: "center",
 
-            paddingLeft:"12px",
+            paddingLeft: "12px",
 
-            color:"#999",
+            borderRadius: "6px",
 
-            cursor:"pointer",
+            color: "#999999",
 
-            fontSize:"14px",
+            fontSize: "14px",
 
-            borderRadius:"6px"
+            cursor: "pointer"
 
         });
 
 
-        item.onclick=()=>{
 
-            const target=document.querySelector(entry[1]);
+        item.onclick = () => {
 
-            if(target){
-                target.click();
+            const element = document.querySelector(target);
+
+            if (element) {
+                element.click();
             }
 
         };
 
 
-        item.onmouseenter=()=>{
 
-            item.style.background="rgb(23,23,23)";
+        item.onmouseenter = () => {
+
+            item.style.background = "rgb(23,23,23)";
 
         };
 
 
-        item.onmouseleave=()=>{
+        item.onmouseleave = () => {
 
-            item.style.background="transparent";
+            item.style.background = "transparent";
 
         };
 
 
         createMenu.appendChild(item);
 
-    });
+    }
+
+
+
+    addSubmenu(
+        "Worlds",
+        "#worlds_dlg_button"
+    );
+
+
+    addSubmenu(
+        "Characters",
+        "#rm_button"
+    );
+
+
+    addSubmenu(
+        "Personas",
+        "#persona-management-button"
+    );
+
 
 
 
 
     /* ============================================================
-       BUTTONS
+       MAIN BUTTONS
        ============================================================ */
 
 
-    const home=createButton(icons.home,"Home");
-
-    const create=createButton(icons.create,"Create");
-
-    const feed=createButton(icons.feed,"Feed");
-
-    const profile=createButton(icons.profile,"Profile");
-
-    const settings=createButton(icons.settings,"Settings");
+    const home =
+        createButton(
+            icons.home,
+            "Home"
+        );
 
 
+    const create =
+        createButton(
+            icons.create,
+            "Create"
+        );
 
 
-    create.onclick=()=>{
+    const feed =
+        createButton(
+            icons.feed,
+            "Feed"
+        );
+
+
+    const profile =
+        createButton(
+            icons.profile,
+            "Profile"
+        );
+
+
+    const settings =
+        createButton(
+            icons.settings,
+            "Settings"
+        );
+
+
+
+
+    /* ============================================================
+       BUTTON ACTIONS
+       ============================================================ */
+
+
+    create.onclick = () => {
 
         createMenu.style.display =
-            createMenu.style.display==="flex"
+            createMenu.style.display === "flex"
             ? "none"
             : "flex";
 
@@ -537,27 +573,39 @@ const icons = {
 
 
 
-    settings.onclick=()=>{
+    settings.onclick = () => {
 
-        const button=document.querySelector("#settings_button");
+        const button =
+            document.querySelector("#settings_button");
 
-        if(button)
+
+        if (button) {
             button.click();
+        }
 
     };
 
 
 
-    profile.onclick=()=>{
+    profile.onclick = () => {
 
-        const button=document.querySelector("#persona-management-button");
+        const button =
+            document.querySelector("#persona-management-button");
 
-        if(button)
+
+        if (button) {
             button.click();
+        }
 
     };
 
 
+
+
+
+    /* ============================================================
+       BUILD SIDEBAR
+       ============================================================ */
 
 
     sidebar.appendChild(home);
@@ -577,87 +625,43 @@ const icons = {
 
 
     /* ============================================================
-       COLLAPSE
+       COLLAPSE LOGIC
        ============================================================ */
 
-    collapse.onclick=()=>{
+
+    collapse.onclick = () => {
 
 
-        collapsed=!collapsed;
-
-
-        if(collapsed){
-
-
-            sidebar.style.width="72px";
-
-
-            logo.src="favicon.ico";
-
-
-            Object.assign(logo.style,{
-
-                width:"40px",
-
-                height:"40px",
-
-                marginLeft:"1px"
-
-            });
+        collapsed = !collapsed;
 
 
 
-            document
-            .querySelectorAll(".fw-text")
-            .forEach(t=>{
-
-                t.style.display="none";
-
-            });
+        if (collapsed) {
 
 
-
-document
-.querySelectorAll("#fourwall-sidebar > div")
-.forEach(el=>{
-
-    if(el!==collapse){
-
-        el.style.width="47px";
-
-        el.style.padding="0";
-
-        el.style.justifyContent="center";
-
-    }
-
-});
+            sidebar.style.width = "63px";
 
 
-            setArrow(false);
+            /*
+             Hide arrow but keep
+             invisible clickable area
+            */
 
-        }
-
-
-else{
-
-
-    sidebar.style.width="287px";
+            collapse.style.opacity = "0";
 
 
-    collapse.style.display = "flex";
+
+            logo.src = "favicon.ico";
 
 
-    logo.src="img/4wallai.svg";
 
+            Object.assign(logo.style, {
 
-            Object.assign(logo.style,{
+                width: "40px",
 
-                width:"152px",
+                height: "40px",
 
-                height:"40px",
-
-                marginLeft:"0"
+                marginLeft: "1px"
 
             });
 
@@ -665,9 +669,9 @@ else{
 
             document
             .querySelectorAll(".fw-text")
-            .forEach(t=>{
+            .forEach(text => {
 
-                t.style.display="block";
+                text.style.display = "none";
 
             });
 
@@ -675,13 +679,78 @@ else{
 
             document
             .querySelectorAll("#fourwall-sidebar > div")
-            .forEach(el=>{
+            .forEach(element => {
 
-                el.style.width="239px";
 
-                el.style.padding="0 14px";
+                if (element !== collapse) {
 
-                el.style.justifyContent="";
+
+                    element.style.width = "47px";
+
+                    element.style.padding = "0";
+
+                    element.style.justifyContent = "center";
+
+
+                }
+
+            });
+
+
+
+            setArrow(false);
+
+
+        }
+
+
+        else {
+
+
+            sidebar.style.width = "287px";
+
+
+            collapse.style.opacity = "0.8";
+
+
+
+            logo.src = "img/4wallai.svg";
+
+
+
+            Object.assign(logo.style, {
+
+                width: "152px",
+
+                height: "40px",
+
+                marginLeft: "0"
+
+            });
+
+
+
+            document
+            .querySelectorAll(".fw-text")
+            .forEach(text => {
+
+                text.style.display = "block";
+
+            });
+
+
+
+            document
+            .querySelectorAll("#fourwall-sidebar > div")
+            .forEach(element => {
+
+
+                element.style.width = "239px";
+
+                element.style.padding = "0 14px";
+
+                element.style.justifyContent = "";
+
 
             });
 
