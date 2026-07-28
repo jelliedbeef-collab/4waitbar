@@ -1,145 +1,184 @@
 (function () {
 
     /* ============================================================
-       4WALL STYLE SIDEBAR NAVIGATION
+       CLEANUP OLD VERSION
        ============================================================ */
 
+    const old = document.getElementById("fourwall-sidebar");
+
+    if (old) {
+        old.remove();
+    }
+
+
+
+    /* ============================================================
+       HIDE ORIGINAL SILLYTAVERN SIDEBAR
+       ============================================================ */
+
+    const oldSidebar = document.querySelector("#top-settings-holder");
+    const oldBar = document.querySelector("#top-bar");
+
+
+    if (oldSidebar) {
+        oldSidebar.style.display = "none";
+    }
+
+    if (oldBar) {
+        oldBar.style.display = "none";
+    }
+
+
+
+    /* ============================================================
+       SIDEBAR
+       ============================================================ */
 
     const sidebar = document.createElement("div");
+
     sidebar.id = "fourwall-sidebar";
 
 
     Object.assign(sidebar.style, {
 
-        position: "fixed",
+        position:"fixed",
 
-        left: "0",
-        top: "0",
+        left:"0",
+        top:"0",
 
-        width: "287px",
-        height: "100vh",
+        width:"287px",
+        height:"100vh",
 
-        background: "#0A0A0A",
+        background:"#0A0A0A",
 
-        borderRight: "1px solid rgb(23,23,23)",
+        borderRight:"1px solid rgb(23,23,23)",
 
-        zIndex: "999999",
+        zIndex:"999999",
 
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
+        display:"flex",
+        flexDirection:"column",
 
-        padding: "90px 15px",
+        padding:"15px",
 
-        boxSizing: "border-box",
+        boxSizing:"border-box",
 
-        gap: "4px",
+        transition:"width .2s ease",
 
-        fontFamily: "Inter, sans-serif"
+        fontFamily:"Inter, sans-serif"
 
     });
 
 
 
+    let collapsed = false;
+
+
+
     /* ============================================================
-       SVG ICONS
+       LOGO
+       ============================================================ */
+
+    const logo = document.createElement("img");
+
+    logo.src = "img/4wallai.svg";
+
+
+    Object.assign(logo.style, {
+
+        width:"152px",
+
+        height:"40px",
+
+        objectFit:"contain",
+
+        marginBottom:"25px",
+
+        transition:"opacity .2s"
+
+    });
+
+
+    sidebar.appendChild(logo);
+
+
+
+
+    /* ============================================================
+       COLLAPSE BUTTON
+       ============================================================ */
+
+
+    const collapse = document.createElement("div");
+
+
+    collapse.innerHTML = `
+
+    <svg width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round">
+
+    <path d="m11 17-5-5 5-5"/>
+    <path d="m18 17-5-5 5-5"/>
+
+    </svg>
+
+    `;
+
+
+    Object.assign(collapse.style, {
+
+        position:"absolute",
+
+        top:"25px",
+
+        right:"20px",
+
+        width:"25px",
+
+        height:"25px",
+
+        display:"flex",
+
+        alignItems:"center",
+
+        justifyContent:"center",
+
+        cursor:"pointer",
+
+        opacity:"0.8"
+
+    });
+
+
+    sidebar.appendChild(collapse);
+
+
+
+
+    /* ============================================================
+       ICONS
        ============================================================ */
 
 
     const icons = {
 
+        home:`🏠`,
 
-        home: `
-        <svg xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
+        create:`＋`,
 
-        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
-        <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        feed:`📰`,
 
-        </svg>`,
+        profile:`👤`,
 
+        settings:`⚙`
 
-
-        plus: `
-        <svg xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <path d="M5 12h14"/>
-        <path d="M12 5v14"/>
-
-        </svg>`,
-
-
-
-        feed: `
-        <svg xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Z"/>
-        <path d="M18 14h-8"/>
-        <path d="M15 18h-5"/>
-        <path d="M10 6h8v4h-8V6Z"/>
-
-        </svg>`,
-
-
-
-        profile: `
-        <svg xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-
-        </svg>`,
-
-
-
-        settings: `
-        <svg xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-
-        <circle cx="12" cy="12" r="3"/>
-
-        </svg>`
     };
+
 
 
 
@@ -148,33 +187,31 @@
        ============================================================ */
 
 
-    function createButton(icon,label){
+    function button(icon,text){
 
 
-        const button = document.createElement("div");
+        const b=document.createElement("div");
 
 
-        button.innerHTML = `
+        b.innerHTML=`
 
-            <div class="fw-icon">
-                ${icon}
-            </div>
+        <span class="fw-icon">
+        ${icon}
+        </span>
 
-            <div class="fw-label">
-                ${label}
-            </div>
+        <span class="fw-text">
+        ${text}
+        </span>
 
         `;
 
 
 
-        Object.assign(button.style, {
+        Object.assign(b.style,{
 
             width:"239px",
 
             height:"36px",
-
-            flex:"0 0 auto",
 
             display:"flex",
 
@@ -182,48 +219,39 @@
 
             padding:"0 14px",
 
-            background:"#0A0A0A",
-
             borderRadius:"6px",
-
-            boxSizing:"border-box",
 
             cursor:"pointer",
 
-            color:"#ffffff",
+            color:"#fff",
 
-            overflow:"hidden",
+            boxSizing:"border-box",
 
-            transition:"background .15s ease"
+            transition:"background .15s"
 
         });
 
 
 
-        button.querySelector(".fw-icon").style.cssText = `
+        const ic=b.querySelector(".fw-icon");
 
-            width:20px;
-            height:20px;
+        Object.assign(ic.style,{
 
-            display:flex;
-            align-items:center;
-            justify-content:center;
+            width:"20px",
 
-            color:#f5541d;
+            display:"flex",
 
-            flex-shrink:0;
+            color:"#f5541d"
 
-        `;
+        });
 
 
 
-        button.querySelector(".fw-label").style.cssText = `
+        b.querySelector(".fw-text").style.cssText=`
 
             margin-left:12px;
 
-            color:#ffffff;
-
-            font-size:0.85em;
+            font-size:.85em;
 
             white-space:nowrap;
 
@@ -231,68 +259,58 @@
 
 
 
-        button.onmouseenter = () => {
+        b.onmouseenter=()=>{
 
-            button.style.background = "rgb(23,23,23)";
-
-        };
-
-
-        button.onmouseleave = () => {
-
-            button.style.background = "#0A0A0A";
+            b.style.background="rgb(23,23,23)";
 
         };
 
 
-        return button;
+        b.onmouseleave=()=>{
+
+            b.style.background="#0A0A0A";
+
+        };
+
+
+        return b;
 
     }
 
 
 
 
+
     /* ============================================================
-       CREATE SUBMENU
+       CREATE MENU
        ============================================================ */
 
 
-    const createMenu = document.createElement("div");
+    const createMenu=document.createElement("div");
 
 
-    Object.assign(createMenu.style, {
+    Object.assign(createMenu.style,{
 
         display:"none",
 
         flexDirection:"column",
 
-        marginLeft:"15px",
-
-        marginTop:"4px",
-
-        marginBottom:"4px"
+        marginLeft:"15px"
 
     });
 
 
 
-    [
-        "Worlds",
-        "Characters",
-        "Personas"
-
-    ].forEach(name => {
+    function submenu(name,target){
 
 
-        const item = document.createElement("div");
+        const item=document.createElement("div");
 
 
-        item.textContent = name;
+        item.textContent=name;
 
 
-        Object.assign(item.style, {
-
-            width:"224px",
+        Object.assign(item.style,{
 
             height:"32px",
 
@@ -300,92 +318,107 @@
 
             alignItems:"center",
 
-            paddingLeft:"14px",
-
-            borderRadius:"6px",
-
-            color:"#999999",
+            color:"#999",
 
             cursor:"pointer",
 
-            fontSize:"0.85em"
+            fontSize:"14px",
+
+            paddingLeft:"12px"
 
         });
 
 
 
-        item.onmouseenter = () => {
+        item.onclick=()=>{
 
-            item.style.background="rgb(23,23,23)";
+            const el=document.querySelector(target);
 
-        };
-
-
-        item.onmouseleave = () => {
-
-            item.style.background="transparent";
-
-        };
-
-
-        item.onclick = () => {
-
-            console.log("Open:", name);
+            if(el){
+                el.click();
+            }
+            else{
+                console.log("Missing ST target:",target);
+            }
 
         };
 
 
         createMenu.appendChild(item);
 
-    });
+    }
+
+
+
+    submenu("Worlds","#worlds_dlg_button");
+
+    submenu("Characters","#rm_button");
+
+    submenu("Personas","#persona-management-button");
+
 
 
 
 
     /* ============================================================
-       CREATE BUTTONS
+       BUTTONS
        ============================================================ */
 
 
-    const home =
-        createButton(icons.home,"Home");
+    const home=
+        button(icons.home,"Home");
 
 
-    const create =
-        createButton(icons.plus,"Create");
+    const create=
+        button(icons.create,"Create");
 
 
-    const feed =
-        createButton(icons.feed,"Feed");
+    const feed=
+        button(icons.feed,"Feed");
 
 
-    const profile =
-        createButton(icons.profile,"Profile");
+    const profile=
+        button(icons.profile,"Profile");
 
 
-    const settings =
-        createButton(icons.settings,"Settings");
+    const settings=
+        button(icons.settings,"Settings");
 
 
 
 
-    create.onclick = () => {
-
+    create.onclick=()=>{
 
         createMenu.style.display =
-            createMenu.style.display === "flex"
-            ? "none"
-            : "flex";
-
+        createMenu.style.display==="flex"
+        ? "none"
+        :"flex";
 
     };
 
 
 
+    settings.onclick=()=>{
 
-    /* ============================================================
-       BUILD
-       ============================================================ */
+        const btn=document.querySelector("#settings_button");
+
+        if(btn)
+            btn.click();
+
+    };
+
+
+
+    profile.onclick=()=>{
+
+        const btn=document.querySelector("#persona-management-button");
+
+        if(btn)
+            btn.click();
+
+    };
+
+
 
 
     sidebar.appendChild(home);
@@ -402,8 +435,127 @@
 
 
 
-    document.body.appendChild(sidebar);
 
+
+    /* ============================================================
+       COLLAPSE LOGIC
+       ============================================================ */
+
+
+    collapse.onclick=()=>{
+
+
+        collapsed=!collapsed;
+
+
+        if(collapsed){
+
+
+            sidebar.style.width="72px";
+
+
+            logo.style.opacity="0";
+
+
+            collapse.innerHTML=`
+
+            <svg width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2">
+
+            <path d="m13 17 5-5-5-5"/>
+            <path d="m6 17 5-5-5-5"/>
+
+            </svg>`;
+
+
+            document
+            .querySelectorAll(".fw-text")
+            .forEach(x=>{
+
+                x.style.display="none";
+
+            });
+
+
+            document
+            .querySelectorAll("#fourwall-sidebar > div")
+            .forEach(x=>{
+
+                if(x!==collapse){
+
+                    x.style.width="44px";
+
+                    x.style.padding="0";
+
+                    x.style.justifyContent="center";
+
+                }
+
+            });
+
+
+        }
+
+        else{
+
+
+            sidebar.style.width="287px";
+
+
+            logo.style.opacity="1";
+
+
+            collapse.innerHTML=`
+
+            <svg width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2">
+
+            <path d="m11 17-5-5 5-5"/>
+            <path d="m18 17-5-5 5-5"/>
+
+            </svg>`;
+
+
+
+            document
+            .querySelectorAll(".fw-text")
+            .forEach(x=>{
+
+                x.style.display="block";
+
+            });
+
+
+
+            document
+            .querySelectorAll("#fourwall-sidebar > div")
+            .forEach(x=>{
+
+                x.style.width="239px";
+
+                x.style.padding="0 14px";
+
+                x.style.justifyContent="";
+
+            });
+
+        }
+
+    };
+
+
+
+
+
+    document.body.appendChild(sidebar);
 
 
 })();
