@@ -28,7 +28,6 @@
     content.id = 'custom-topbar-content';
 
     Object.assign(content.style, {
-        position: 'relative',
         width: '800px',
         maxWidth: 'calc(100% - 40px)',
         height: '100%',
@@ -61,7 +60,6 @@
        ============================================================ */
 
     const characterInfo = document.createElement('div');
-    characterInfo.id = 'custom-topbar-character-info';
 
     Object.assign(characterInfo.style, {
         display: 'flex',
@@ -89,12 +87,18 @@
     });
 
 
-    /* MODEL NAME */
+    /* MODEL */
 
     const modelName = document.createElement('div');
-    modelName.id = 'custom-topbar-model-name';
 
-    modelName.textContent = 'Deepseek V4 Flash';
+    modelName.innerHTML = `
+        Deepseek V4 Flash
+        <span style="
+            color:#999999;
+            margin-left:4px;
+            font-size:12px;
+        ">⌄</span>
+    `;
 
     Object.assign(modelName.style, {
         color: '#999999',
@@ -106,27 +110,11 @@
     });
 
 
-    /* ARROW */
-
-    const modelArrow = document.createElement('span');
-
-    modelArrow.textContent = '⌄';
-
-    Object.assign(modelArrow.style, {
-        color: '#999999',
-        marginLeft: '4px',
-        fontSize: '12px'
-    });
-
-    modelName.appendChild(modelArrow);
-
-
     /* ============================================================
        BUTTONS
        ============================================================ */
 
     const buttons = document.createElement('div');
-    buttons.id = 'custom-topbar-buttons';
 
     Object.assign(buttons.style, {
         marginLeft: 'auto',
@@ -140,19 +128,16 @@
 
     const heartButton = document.createElement('button');
 
-    heartButton.id = 'custom-topbar-heart';
     heartButton.innerHTML = '♥';
 
     Object.assign(heartButton.style, {
         width: '32px',
         height: '32px',
         padding: '0',
-        margin: '0',
         border: 'none',
         background: 'transparent',
         color: '#ff7417',
         fontSize: '24px',
-        lineHeight: '32px',
         cursor: 'pointer'
     });
 
@@ -161,14 +146,12 @@
 
     const menuButton = document.createElement('button');
 
-    menuButton.id = 'custom-topbar-menu';
     menuButton.innerHTML = '•••';
 
     Object.assign(menuButton.style, {
         width: '32px',
         height: '32px',
         padding: '0',
-        margin: '0',
         border: 'none',
         background: 'transparent',
         color: '#ffffff',
@@ -180,102 +163,69 @@
 
 
     /* ============================================================
-       FIND CURRENT CHARACTER
+       FIND ACTIVE CHARACTER FROM CHAT
        ============================================================ */
 
-    function findCurrentCharacter() {
+    function updateCharacter() {
 
         /*
-         * Look for the currently selected character in the
-         * SillyTavern character list.
+         * Find the first AI message currently displayed.
          *
-         * SillyTavern marks the active character with:
+         * SillyTavern's message element contains:
          *
-         * .character_select.selected
+         * .ch_name .name_text
          *
-         * or an element containing the "selected" class.
+         * for the character's name.
+         *
+         * And:
+         *
+         * .avatar img
+         *
+         * for the character's avatar.
          */
 
-        const selected = document.querySelector(
-            '#rm_print_characters_block .character_select.selected, ' +
-            '#rm_print_characters_block .character_select.is_selected, ' +
-            '.character_select.selected, ' +
-            '.character_select.is_selected'
+        const characterMessage = document.querySelector(
+            '#chat .mes[is_user="false"]'
         );
 
-        if (!selected) {
-            return null;
-        }
-
-        return selected;
-    }
-
-
-    /* ============================================================
-       UPDATE TOPBAR
-       ============================================================ */
-
-    function updateCharacterInfo() {
-
-        const selectedCharacter = findCurrentCharacter();
-
-        if (!selectedCharacter) {
+        if (!characterMessage) {
             return;
         }
 
 
         /* ========================================================
-           FIND CHARACTER NAME
+           GET CHARACTER NAME
            ======================================================== */
 
-        let nameElement = selectedCharacter.querySelector(
-            '.ch_name, .character_name, .name, .ch_name_block'
+        const nameElement = characterMessage.querySelector(
+            '.ch_name .name_text'
         );
 
-        let name = '';
-
         if (nameElement) {
-            name = nameElement.textContent.trim();
+            const name = nameElement.textContent.trim();
+
+            if (name) {
+                characterName.textContent = name;
+            }
         }
 
 
         /* ========================================================
-           FIND CHARACTER AVATAR
+           GET CHARACTER AVATAR
            ======================================================== */
 
-        const imageElement = selectedCharacter.querySelector('img');
+        const avatarElement = characterMessage.querySelector(
+            '.avatar img'
+        );
 
-        let avatarURL = '';
-
-        if (imageElement) {
-            avatarURL =
-                imageElement.src ||
-                imageElement.getAttribute('data-src') ||
-                '';
-        }
-
-
-        /* ========================================================
-           UPDATE NAME
-           ======================================================== */
-
-        if (name) {
-            characterName.textContent = name;
-        }
-
-
-        /* ========================================================
-           UPDATE AVATAR
-           ======================================================== */
-
-        if (avatarURL) {
-            avatar.src = avatarURL;
+        if (avatarElement && avatarElement.src) {
+            avatar.src = avatarElement.src;
         }
     }
 
 
     /* ============================================================
-       BUILD TOPBAR
+       BUILD
        ============================================================ */
 
     characterInfo.appendChild(characterName);
@@ -294,11 +244,11 @@
 
 
     /* ============================================================
-       CONSTANTLY CHECK CURRENT CHARACTER
+       CHECK CONSTANTLY
        ============================================================ */
 
-    setInterval(function () {
-        updateCharacterInfo();
-    }, 250);
+    updateCharacter();
+
+    setInterval(updateCharacter, 250);
 
 })();
