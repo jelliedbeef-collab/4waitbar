@@ -617,21 +617,21 @@ const icons = {
 
 
 
-            document
-            .querySelectorAll("#fourwall-sidebar > div")
-            .forEach(el=>{
+document
+.querySelectorAll("#fourwall-sidebar > div")
+.forEach(el=>{
 
-                if(el!==collapse){
+    if(el!==collapse){
 
-                    el.style.width="42px";
+        el.style.width="47px";
 
-                    el.style.padding="0";
+        el.style.padding="0";
 
-                    el.style.justifyContent="center";
+        el.style.justifyContent="center";
 
-                }
+    }
 
-            });
+});
 
 
             setArrow(false);
