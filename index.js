@@ -27,15 +27,15 @@
     const content = document.createElement('div');
     content.id = 'custom-topbar-content';
 
-    Object.assign(content.style, {
-        width: '800px',
-        maxWidth: 'calc(100% - 40px)',
-        height: '100%',
-        margin: '0 auto',
-        display: 'flex',
-        alignItems: 'center',
-        boxSizing: 'border-box'
-    });
+Object.assign(content.style, {
+    width: 'calc(100% - 80px)',
+    maxWidth: '1000px',
+    height: '100%',
+    margin: '0 auto',
+    display: 'flex',
+    alignItems: 'center',
+    boxSizing: 'border-box'
+});
 
 
     /* ============================================================
