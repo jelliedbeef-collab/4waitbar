@@ -125,75 +125,131 @@
 
 
 
-    /* ============================================================
-       COLLAPSE BUTTON
-       ============================================================ */
+/* ============================================================
+   COLLAPSE LOGIC
+   ============================================================ */
 
-    const collapse = document.createElement("div");
+collapse.onclick = () => {
+
+    collapsed = !collapsed;
 
 
-    function setArrow(expanded) {
+    if (collapsed) {
 
-        if (expanded) {
 
-            collapse.innerHTML = `
+        sidebar.style.width = "63px";
 
-            <svg xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round">
 
-            <path d="m11 17-5-5 5-5"/>
-            <path d="m18 17-5-5 5-5"/>
+        // Hide arrow visually, keep click area
+        collapse.style.opacity = "0";
 
-            </svg>`;
 
-        }
+        logo.src = "favicon.ico";
 
-        else {
 
-            collapse.innerHTML = "";
+        Object.assign(logo.style, {
 
-        }
+            width: "40px",
+
+            height: "40px",
+
+            marginLeft: "0",
+
+            marginTop: "10px",
+
+            marginBottom: "25px"
+
+        });
+
+
+
+        document
+        .querySelectorAll(".fw-text")
+        .forEach(text => {
+
+            text.style.display = "none";
+
+        });
+
+
+
+        document
+        .querySelectorAll(".fw-button")
+        .forEach(button => {
+
+            button.style.width = "47px";
+
+            button.style.padding = "0";
+
+            button.style.justifyContent = "center";
+
+        });
+
+
+
+        setArrow(false);
 
     }
 
 
-    setArrow(true);
+    else {
 
 
-    Object.assign(collapse.style, {
-
-        position: "absolute",
-
-        top: "23px",
-
-        right: "25px",
-
-        width: "25px",
-
-        height: "25px",
-
-        display: "flex",
-
-        alignItems: "center",
-
-        justifyContent: "center",
-
-        cursor: "pointer",
-
-        opacity: "0.8"
-
-    });
+        sidebar.style.width = "287px";
 
 
-    sidebar.appendChild(collapse);
+        // Restore arrow
+        collapse.style.opacity = "0.8";
 
+
+        logo.src = "img/4wallai.svg";
+
+
+        Object.assign(logo.style, {
+
+            width: "152px",
+
+            height: "40px",
+
+            marginLeft: "0",
+
+            marginTop: "10px",
+
+            marginBottom: "25px"
+
+        });
+
+
+
+        document
+        .querySelectorAll(".fw-text")
+        .forEach(text => {
+
+            text.style.display = "block";
+
+        });
+
+
+
+        document
+        .querySelectorAll(".fw-button")
+        .forEach(button => {
+
+            button.style.width = "239px";
+
+            button.style.padding = "0 14px";
+
+            button.style.justifyContent = "flex-start";
+
+        });
+
+
+
+        setArrow(true);
+
+    }
+
+};
 
 
     /* ============================================================
