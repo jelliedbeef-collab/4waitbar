@@ -21,7 +21,7 @@
 
 
     /* ============================================================
-       TOPBAR CONTENT
+       CONTENT
        ============================================================ */
 
     const content = document.createElement('div');
@@ -40,7 +40,7 @@
 
 
     /* ============================================================
-       CHARACTER AVATAR
+       AVATAR
        ============================================================ */
 
     const avatar = document.createElement('img');
@@ -106,7 +106,7 @@
     });
 
 
-    /* DROPDOWN ARROW */
+    /* ARROW */
 
     const modelArrow = document.createElement('span');
 
@@ -157,7 +157,7 @@
     });
 
 
-    /* THREE DOTS */
+    /* MENU */
 
     const menuButton = document.createElement('button');
 
@@ -180,40 +180,96 @@
 
 
     /* ============================================================
-       UPDATE CHARACTER INFORMATION
+       FIND CURRENT CHARACTER
+       ============================================================ */
+
+    function findCurrentCharacter() {
+
+        /*
+         * Look for the currently selected character in the
+         * SillyTavern character list.
+         *
+         * SillyTavern marks the active character with:
+         *
+         * .character_select.selected
+         *
+         * or an element containing the "selected" class.
+         */
+
+        const selected = document.querySelector(
+            '#rm_print_characters_block .character_select.selected, ' +
+            '#rm_print_characters_block .character_select.is_selected, ' +
+            '.character_select.selected, ' +
+            '.character_select.is_selected'
+        );
+
+        if (!selected) {
+            return null;
+        }
+
+        return selected;
+    }
+
+
+    /* ============================================================
+       UPDATE TOPBAR
        ============================================================ */
 
     function updateCharacterInfo() {
 
-        /*
-         * SillyTavern stores the currently selected character
-         * in the global "characters" array.
-         *
-         * "this_chid" is the index of the currently active character.
-         */
+        const selectedCharacter = findCurrentCharacter();
 
-        if (
-            typeof characters === 'undefined' ||
-            typeof this_chid === 'undefined' ||
-            this_chid === undefined ||
-            this_chid === null ||
-            !characters[this_chid]
-        ) {
-            characterName.textContent = 'No Character Selected';
-            avatar.src = '/thumbnail?type=avatar&file=default.png';
+        if (!selectedCharacter) {
             return;
         }
 
-        const character = characters[this_chid];
 
-        /* Character name */
-        characterName.textContent = character.name || 'Unknown Character';
+        /* ========================================================
+           FIND CHARACTER NAME
+           ======================================================== */
 
-        /* Character avatar */
-        if (character.avatar) {
-            avatar.src = `/thumbnail?type=avatar&file=${encodeURIComponent(character.avatar)}`;
-        } else {
-            avatar.src = '/thumbnail?type=avatar&file=default.png';
+        let nameElement = selectedCharacter.querySelector(
+            '.ch_name, .character_name, .name, .ch_name_block'
+        );
+
+        let name = '';
+
+        if (nameElement) {
+            name = nameElement.textContent.trim();
+        }
+
+
+        /* ========================================================
+           FIND CHARACTER AVATAR
+           ======================================================== */
+
+        const imageElement = selectedCharacter.querySelector('img');
+
+        let avatarURL = '';
+
+        if (imageElement) {
+            avatarURL =
+                imageElement.src ||
+                imageElement.getAttribute('data-src') ||
+                '';
+        }
+
+
+        /* ========================================================
+           UPDATE NAME
+           ======================================================== */
+
+        if (name) {
+            characterName.textContent = name;
+        }
+
+
+        /* ========================================================
+           UPDATE AVATAR
+           ======================================================== */
+
+        if (avatarURL) {
+            avatar.src = avatarURL;
         }
     }
 
@@ -238,16 +294,11 @@
 
 
     /* ============================================================
-       INITIAL CHARACTER LOAD
+       CONSTANTLY CHECK CURRENT CHARACTER
        ============================================================ */
 
-    updateCharacterInfo();
-
-
-    /* ============================================================
-       WATCH FOR CHARACTER CHANGES
-       ============================================================ */
-
-    setInterval(updateCharacterInfo, 1000);
+    setInterval(function () {
+        updateCharacterInfo();
+    }, 250);
 
 })();
