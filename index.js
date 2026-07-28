@@ -1,32 +1,51 @@
 (function () {
 
     /* ============================================================
-       CLEANUP OLD VERSION
+       REMOVE OLD INSTANCE
        ============================================================ */
 
-    const old = document.getElementById("fourwall-sidebar");
+    const existing = document.getElementById("fourwall-sidebar");
 
-    if (old) {
-        old.remove();
+    if (existing) {
+        existing.remove();
     }
 
 
 
     /* ============================================================
-       HIDE ORIGINAL SILLYTAVERN SIDEBAR
+       KEEP ORIGINAL SILLYTAVERN UI HIDDEN
        ============================================================ */
 
-    const oldSidebar = document.querySelector("#top-settings-holder");
-    const oldBar = document.querySelector("#top-bar");
+    function hideOldUI() {
+
+        const oldSidebar = document.querySelector("#top-settings-holder");
+        const oldTopbar = document.querySelector("#top-bar");
 
 
-    if (oldSidebar) {
-        oldSidebar.style.display = "none";
+        if (oldSidebar) {
+            oldSidebar.style.display = "none";
+        }
+
+
+        if (oldTopbar) {
+            oldTopbar.style.display = "none";
+        }
+
     }
 
-    if (oldBar) {
-        oldBar.style.display = "none";
-    }
+
+    hideOldUI();
+
+
+    const observer = new MutationObserver(() => {
+        hideOldUI();
+    });
+
+
+    observer.observe(document.body, {
+        childList:true,
+        subtree:true
+    });
 
 
 
@@ -56,9 +75,14 @@
         zIndex:"999999",
 
         display:"flex",
+
         flexDirection:"column",
 
+        alignItems:"stretch",
+
         padding:"15px",
+
+        paddingTop:"15px",
 
         boxSizing:"border-box",
 
@@ -93,7 +117,7 @@
 
         marginBottom:"25px",
 
-        transition:"opacity .2s"
+        transition:"all .2s ease"
 
     });
 
@@ -107,27 +131,49 @@
        COLLAPSE BUTTON
        ============================================================ */
 
-
     const collapse = document.createElement("div");
 
 
-    collapse.innerHTML = `
+    function setArrow(open){
 
-    <svg width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#FFFFFF"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round">
+        collapse.innerHTML = open ? `
 
-    <path d="m11 17-5-5 5-5"/>
-    <path d="m18 17-5-5 5-5"/>
+        <svg width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
-    </svg>
+        <path d="m11 17-5-5 5-5"/>
+        <path d="m18 17-5-5 5-5"/>
 
-    `;
+        </svg>
+
+        ` : `
+
+        <svg width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+
+        <path d="m13 17 5-5-5-5"/>
+        <path d="m6 17 5-5-5-5"/>
+
+        </svg>
+
+        `;
+
+    }
+
+
+    setArrow(true);
 
 
     Object.assign(collapse.style, {
@@ -164,18 +210,17 @@
        ICONS
        ============================================================ */
 
-
     const icons = {
 
-        home:`🏠`,
+        home:"⌂",
 
-        create:`＋`,
+        create:"+",
 
-        feed:`📰`,
+        feed:"▤",
 
-        profile:`👤`,
+        profile:"○",
 
-        settings:`⚙`
+        settings:"⚙"
 
     };
 
@@ -186,32 +231,28 @@
        BUTTON CREATOR
        ============================================================ */
 
-
-    function button(icon,text){
-
-
-        const b=document.createElement("div");
+    function createButton(icon,text){
 
 
-        b.innerHTML=`
+        const button=document.createElement("div");
 
-        <span class="fw-icon">
-        ${icon}
-        </span>
 
-        <span class="fw-text">
-        ${text}
-        </span>
+        button.innerHTML = `
+
+        <div class="fw-icon">${icon}</div>
+
+        <div class="fw-text">${text}</div>
 
         `;
 
 
-
-        Object.assign(b.style,{
+        Object.assign(button.style,{
 
             width:"239px",
 
             height:"36px",
+
+            flex:"0 0 auto",
 
             display:"flex",
 
@@ -219,39 +260,54 @@
 
             padding:"0 14px",
 
+            background:"#0A0A0A",
+
             borderRadius:"6px",
 
             cursor:"pointer",
 
-            color:"#fff",
-
             boxSizing:"border-box",
 
-            transition:"background .15s"
+            color:"#fff",
+
+            transition:"background .15s ease"
 
         });
 
 
 
-        const ic=b.querySelector(".fw-icon");
+        const iconBox = button.querySelector(".fw-icon");
 
-        Object.assign(ic.style,{
+
+        Object.assign(iconBox.style,{
 
             width:"20px",
 
+            height:"20px",
+
             display:"flex",
 
-            color:"#f5541d"
+            alignItems:"center",
+
+            justifyContent:"center",
+
+            color:"#f5541d",
+
+            fontSize:"20px",
+
+            flexShrink:"0"
 
         });
 
 
 
-        b.querySelector(".fw-text").style.cssText=`
+        button.querySelector(".fw-text").style.cssText = `
 
             margin-left:12px;
 
-            font-size:.85em;
+            font-size:0.85em;
+
+            color:#ffffff;
 
             white-space:nowrap;
 
@@ -259,24 +315,23 @@
 
 
 
-        b.onmouseenter=()=>{
+        button.onmouseenter = () => {
 
-            b.style.background="rgb(23,23,23)";
-
-        };
-
-
-        b.onmouseleave=()=>{
-
-            b.style.background="#0A0A0A";
+            button.style.background="rgb(23,23,23)";
 
         };
 
 
-        return b;
+        button.onmouseleave = () => {
+
+            button.style.background="#0A0A0A";
+
+        };
+
+
+        return button;
 
     }
-
 
 
 
@@ -284,7 +339,6 @@
     /* ============================================================
        CREATE MENU
        ============================================================ */
-
 
     const createMenu=document.createElement("div");
 
@@ -295,22 +349,33 @@
 
         flexDirection:"column",
 
-        marginLeft:"15px"
+        marginLeft:"15px",
+
+        marginTop:"4px",
+
+        marginBottom:"4px"
 
     });
 
 
 
-    function submenu(name,target){
+    [
+        ["Worlds","#worlds_dlg_button"],
+        ["Characters","#rm_button"],
+        ["Personas","#persona-management-button"]
+
+    ].forEach(entry=>{
 
 
         const item=document.createElement("div");
 
 
-        item.textContent=name;
+        item.textContent=entry[0];
 
 
         Object.assign(item.style,{
+
+            width:"224px",
 
             height:"32px",
 
@@ -318,44 +383,47 @@
 
             alignItems:"center",
 
+            paddingLeft:"12px",
+
             color:"#999",
 
             cursor:"pointer",
 
             fontSize:"14px",
 
-            paddingLeft:"12px"
+            borderRadius:"6px"
 
         });
 
 
-
         item.onclick=()=>{
 
-            const el=document.querySelector(target);
+            const target=document.querySelector(entry[1]);
 
-            if(el){
-                el.click();
+            if(target){
+                target.click();
             }
-            else{
-                console.log("Missing ST target:",target);
-            }
+
+        };
+
+
+        item.onmouseenter=()=>{
+
+            item.style.background="rgb(23,23,23)";
+
+        };
+
+
+        item.onmouseleave=()=>{
+
+            item.style.background="transparent";
 
         };
 
 
         createMenu.appendChild(item);
 
-    }
-
-
-
-    submenu("Worlds","#worlds_dlg_button");
-
-    submenu("Characters","#rm_button");
-
-    submenu("Personas","#persona-management-button");
-
+    });
 
 
 
@@ -365,24 +433,15 @@
        ============================================================ */
 
 
-    const home=
-        button(icons.home,"Home");
+    const home=createButton(icons.home,"Home");
 
+    const create=createButton(icons.create,"Create");
 
-    const create=
-        button(icons.create,"Create");
+    const feed=createButton(icons.feed,"Feed");
 
+    const profile=createButton(icons.profile,"Profile");
 
-    const feed=
-        button(icons.feed,"Feed");
-
-
-    const profile=
-        button(icons.profile,"Profile");
-
-
-    const settings=
-        button(icons.settings,"Settings");
+    const settings=createButton(icons.settings,"Settings");
 
 
 
@@ -390,9 +449,9 @@
     create.onclick=()=>{
 
         createMenu.style.display =
-        createMenu.style.display==="flex"
-        ? "none"
-        :"flex";
+            createMenu.style.display==="flex"
+            ? "none"
+            : "flex";
 
     };
 
@@ -400,10 +459,10 @@
 
     settings.onclick=()=>{
 
-        const btn=document.querySelector("#settings_button");
+        const button=document.querySelector("#settings_button");
 
-        if(btn)
-            btn.click();
+        if(button)
+            button.click();
 
     };
 
@@ -411,10 +470,10 @@
 
     profile.onclick=()=>{
 
-        const btn=document.querySelector("#persona-management-button");
+        const button=document.querySelector("#persona-management-button");
 
-        if(btn)
-            btn.click();
+        if(button)
+            button.click();
 
     };
 
@@ -438,9 +497,8 @@
 
 
     /* ============================================================
-       COLLAPSE LOGIC
+       COLLAPSE
        ============================================================ */
-
 
     collapse.onclick=()=>{
 
@@ -454,51 +512,52 @@
             sidebar.style.width="72px";
 
 
-            logo.style.opacity="0";
+            logo.src="favicon.ico";
 
 
-            collapse.innerHTML=`
+            Object.assign(logo.style,{
 
-            <svg width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
-            stroke-width="2">
+                width:"40px",
 
-            <path d="m13 17 5-5-5-5"/>
-            <path d="m6 17 5-5-5-5"/>
+                height:"40px",
 
-            </svg>`;
-
-
-            document
-            .querySelectorAll(".fw-text")
-            .forEach(x=>{
-
-                x.style.display="none";
+                marginLeft:"1px"
 
             });
 
 
+
+            document
+            .querySelectorAll(".fw-text")
+            .forEach(t=>{
+
+                t.style.display="none";
+
+            });
+
+
+
             document
             .querySelectorAll("#fourwall-sidebar > div")
-            .forEach(x=>{
+            .forEach(el=>{
 
-                if(x!==collapse){
+                if(el!==collapse){
 
-                    x.style.width="44px";
+                    el.style.width="42px";
 
-                    x.style.padding="0";
+                    el.style.padding="0";
 
-                    x.style.justifyContent="center";
+                    el.style.justifyContent="center";
 
                 }
 
             });
 
 
+            setArrow(false);
+
         }
+
 
         else{
 
@@ -506,30 +565,26 @@
             sidebar.style.width="287px";
 
 
-            logo.style.opacity="1";
+            logo.src="img/4wallai.svg";
 
 
-            collapse.innerHTML=`
+            Object.assign(logo.style,{
 
-            <svg width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
-            stroke-width="2">
+                width:"152px",
 
-            <path d="m11 17-5-5 5-5"/>
-            <path d="m18 17-5-5 5-5"/>
+                height:"40px",
 
-            </svg>`;
+                marginLeft:"0"
+
+            });
 
 
 
             document
             .querySelectorAll(".fw-text")
-            .forEach(x=>{
+            .forEach(t=>{
 
-                x.style.display="block";
+                t.style.display="block";
 
             });
 
@@ -537,23 +592,32 @@
 
             document
             .querySelectorAll("#fourwall-sidebar > div")
-            .forEach(x=>{
+            .forEach(el=>{
 
-                x.style.width="239px";
+                el.style.width="239px";
 
-                x.style.padding="0 14px";
+                el.style.padding="0 14px";
 
-                x.style.justifyContent="";
+                el.style.justifyContent="";
 
             });
 
+
+
+            setArrow(true);
+
         }
+
 
     };
 
 
 
 
+
+    /* ============================================================
+       INSERT
+       ============================================================ */
 
     document.body.appendChild(sidebar);
 
