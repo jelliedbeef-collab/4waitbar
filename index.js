@@ -606,14 +606,14 @@ collapse.onclick = () => {
         "Worlds",
         "#worlds_dlg_button"
     );
-
-
+    
+    
     addSubmenu(
         "Characters",
         "#rm_button"
     );
-
-
+    
+    
     addSubmenu(
         "Personas",
         "#persona-management-button"
@@ -665,47 +665,100 @@ collapse.onclick = () => {
 
 
 
-    /* ============================================================
-       BUTTON ACTIONS
-       ============================================================ */
+/* ============================================================
+   BUTTON ACTIONS
+   ============================================================ */
 
 
-    create.onclick = () => {
+/*
+    HOME
+    No action - visual only
+*/
 
-        createMenu.style.display =
-            createMenu.style.display === "flex"
-            ? "none"
-            : "flex";
+home.onclick = () => {
 
-    };
+    // placeholder
 
-
-
-    settings.onclick = () => {
-
-        const button =
-            document.querySelector("#settings_button");
-
-
-        if (button) {
-            button.click();
-        }
-
-    };
+};
 
 
 
-    profile.onclick = () => {
 
-        const button =
-            document.querySelector("#persona-management-button");
+/*
+    CREATE
+    Opens submenu
+*/
+
+create.onclick = () => {
+
+    createMenu.style.display =
+        createMenu.style.display === "flex"
+        ? "none"
+        : "flex";
+
+};
 
 
-        if (button) {
-            button.click();
-        }
 
-    };
+
+/*
+    FEED
+    Placeholder
+*/
+
+feed.onclick = () => {
+
+    // placeholder
+
+};
+
+
+
+
+/*
+    PROFILE
+    Opens persona menu
+*/
+
+profile.onclick = () => {
+
+
+    const personaButton =
+        document.querySelector("#persona-management-button");
+
+
+    if (personaButton) {
+
+        personaButton.click();
+
+    }
+
+
+};
+
+
+
+
+/*
+    SETTINGS
+    Opens SillyTavern settings
+*/
+
+settings.onclick = () => {
+
+
+    const settingsButton =
+        document.querySelector("#settings_button");
+
+
+    if (settingsButton) {
+
+        settingsButton.click();
+
+    }
+
+
+};
 
 
 
