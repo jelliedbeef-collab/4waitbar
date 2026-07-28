@@ -123,11 +123,83 @@
 
     sidebar.appendChild(logo);
 
+/* ============================================================
+   COLLAPSE BUTTON
+   ============================================================ */
+
+const collapse = document.createElement("div");
+
+
+function setArrow(expanded) {
+
+    if (expanded) {
+
+        collapse.innerHTML = `
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+
+            <path d="m11 17-5-5 5-5"/>
+            <path d="m18 17-5-5 5-5"/>
+
+        </svg>`;
+
+    } else {
+
+        collapse.innerHTML = "";
+
+    }
+
+}
+
+
+setArrow(true);
+
+
+Object.assign(collapse.style, {
+
+    position:"absolute",
+
+    top:"25px",
+
+    right:"25px",
+
+    width:"25px",
+
+    height:"25px",
+
+    display:"flex",
+
+    alignItems:"center",
+
+    justifyContent:"center",
+
+    cursor:"pointer",
+
+    opacity:"0.8",
+
+    zIndex:"10"
+
+});
+
+
+sidebar.appendChild(collapse);
+
 
 
 /* ============================================================
    COLLAPSE LOGIC
    ============================================================ */
+
+let collapsed = false;
+
 
 collapse.onclick = () => {
 
@@ -140,7 +212,7 @@ collapse.onclick = () => {
         sidebar.style.width = "63px";
 
 
-        // Hide arrow visually, keep click area
+        // hide arrow visually, keep clickable
         collapse.style.opacity = "0";
 
 
@@ -149,15 +221,11 @@ collapse.onclick = () => {
 
         Object.assign(logo.style, {
 
-            width: "40px",
-
-            height: "40px",
-
-            marginLeft: "0",
-
-            marginTop: "10px",
-
-            marginBottom: "25px"
+            width:"40px",
+            height:"40px",
+            marginLeft:"0",
+            marginTop:"10px",
+            marginBottom:"25px"
 
         });
 
@@ -178,9 +246,7 @@ collapse.onclick = () => {
         .forEach(button => {
 
             button.style.width = "47px";
-
             button.style.padding = "0";
-
             button.style.justifyContent = "center";
 
         });
@@ -189,16 +255,13 @@ collapse.onclick = () => {
 
         setArrow(false);
 
-    }
 
-
-    else {
+    } else {
 
 
         sidebar.style.width = "287px";
 
 
-        // Restore arrow
         collapse.style.opacity = "0.8";
 
 
@@ -207,15 +270,11 @@ collapse.onclick = () => {
 
         Object.assign(logo.style, {
 
-            width: "152px",
-
-            height: "40px",
-
-            marginLeft: "0",
-
-            marginTop: "10px",
-
-            marginBottom: "25px"
+            width:"152px",
+            height:"40px",
+            marginLeft:"0",
+            marginTop:"10px",
+            marginBottom:"25px"
 
         });
 
@@ -236,9 +295,7 @@ collapse.onclick = () => {
         .forEach(button => {
 
             button.style.width = "239px";
-
             button.style.padding = "0 14px";
-
             button.style.justifyContent = "flex-start";
 
         });
